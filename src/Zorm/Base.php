@@ -45,7 +45,7 @@ abstract class Base
      */
     public function __construct()
     {
-        $this->config = require __DIR__ . '/../../config/config.php';
+        $this->config = require __DIR__.'/../../config/config.php';
 
         $this->queryBuilder = $this->newQueryBuilder();
 

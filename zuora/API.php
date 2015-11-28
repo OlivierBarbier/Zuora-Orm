@@ -28,18 +28,17 @@
  */
 
 /**
- * Zuora PHP Library
+ * Zuora PHP Library.
  *
  * This class implements singleton pattern and allows user to call
  * any of Zuora's API Calls except for login which will be called
  * automatically prior to any other call
  */
-
 class ZuoraFault extends Exception
 {
     protected $previous = null;
 
-    function __construct($message = '', SoapFault $previous = null, $request_headers = '', $last_request = '', $response_headers = '', $last_response = '')
+    public function __construct($message = '', SoapFault $previous = null, $request_headers = '', $last_request = '', $response_headers = '', $last_response = '')
     {
         $this->request_headers = $request_headers;
         $this->last_request = $last_request;
@@ -49,11 +48,11 @@ class ZuoraFault extends Exception
         parent::__construct($message);
     }
 
-    function __toString()
+    public function __toString()
     {
-        $message = $this->getMessage() . ' in ' . $this->getFile() . ':' . $this->getLine() . "\n";
+        $message = $this->getMessage().' in '.$this->getFile().':'.$this->getLine()."\n";
         if ($this->previous) {
-            $message .= $this->previous->faultstring . "\n";
+            $message .= $this->previous->faultstring."\n";
         }
 
         return $message;
@@ -62,7 +61,7 @@ class ZuoraFault extends Exception
     /**
      * Similar to the PHP 5.3 Exception API.
      */
-    function getPreviousException()
+    public function getPreviousException()
     {
         return $this->previous;
     }
@@ -71,7 +70,7 @@ class ZuoraFault extends Exception
 class Zuora_API
 {
     /**
-     * Singleton instance
+     * Singleton instance.
      *
      * Marked only as protected to allow extension of the class. To extend,
      * simply override {@link getInstance()}.
@@ -83,14 +82,16 @@ class Zuora_API
     protected static $_config = null;
 
     /**
-     * Soap Client
+     * Soap Client.
      *
      * @var SoapClient
      */
     protected $_client;
-public function client() { return $this->_client; }
+    public function client()
+    {
+        return $this->_client;
+    }
     /**
-     *
      * @var SoapHeader
      */
     protected $_header;
@@ -157,12 +158,10 @@ public function client() { return $this->_client; }
     );
 
     /**
-     * Constructor
+     * Constructor.
      *
      * Instantiate using {@link getInstance()}; API is a singleton
      * object.
-     *
-     * @return void
      */
     protected function __construct($config)
     {
@@ -173,7 +172,7 @@ public function client() { return $this->_client; }
                 'soap_version' => SOAP_1_1,
                 'trace'        => 1,
                 'classmap'     => self::$_classmap,
-                'cache_wsdl'   => WSDL_CACHE_NONE
+                'cache_wsdl'   => WSDL_CACHE_NONE,
             )
         );
     }
@@ -181,7 +180,7 @@ public function client() { return $this->_client; }
     /**
      * Log in to Zuora and create a session.
      *
-     * @return boolean
+     * @return bool
      *
      * @throws ZuoraFault
      */
@@ -193,13 +192,13 @@ public function client() { return $this->_client; }
         try {
             $result = $this->_client->login(array('username' => $username, 'password' => $password));
         } catch (SoapFault $e) {
-            throw new ZuoraFault('ERROR in ' . __METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
+            throw new ZuoraFault('ERROR in '.__METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
         }
         $header = new SoapHeader(
             'http://api.zuora.com/',
             'SessionHeader',
             array(
-                'session' => $result->result->Session
+                'session' => $result->result->Session,
             )
         );
         $this->addHeader($header);
@@ -227,7 +226,7 @@ public function client() { return $this->_client; }
             'http://api.zuora.com/',
             'QueryOptions',
             array(
-                'batchSize' => $batchSize
+                'batchSize' => $batchSize,
             )
         );
         $this->addHeader($header);
@@ -240,7 +239,7 @@ public function client() { return $this->_client; }
             'QueueHeader',
             array(
                 'resultEmail' => $resultEmail,
-                'userId'      => $userId
+                'userId'      => $userId,
             )
         );
         $this->addHeader($header);
@@ -266,10 +265,7 @@ public function client() { return $this->_client; }
         Zuora_PaymentMethod $zPaymentMethod = null,
         Zuora_SubscribeOptions $zSubscribeOptions = null,
         Zuora_Contact $zSoldToContact = null
-    )
-    {
-
-
+    ) {
         $subscribeRequest = array(
             'Account'          => $zAccount->getSoapVar(),
             'SubscriptionData' => $zSubscriptionData->getSoapVar(),
@@ -284,9 +280,9 @@ public function client() { return $this->_client; }
         }
 
         try {
-            $result = $this->call("subscribe", array('zObjects' => array($subscribeRequest)), null, $this->_header);
+            $result = $this->call('subscribe', array('zObjects' => array($subscribeRequest)), null, $this->_header);
         } catch (SoapFault $e) {
-            throw new ZuoraFault('ERROR in ' . __METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
+            throw new ZuoraFault('ERROR in '.__METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
         }
 
         return $result;
@@ -303,8 +299,7 @@ public function client() { return $this->_client; }
         Zuora_Account $zAccount,
         Zuora_SubscriptionData $zSubscriptionData,
         Zuora_SubscribeOptions $zSubscribeOptions = null
-    )
-    {
+    ) {
         $subscribeRequest = array(
             'Account'          => $zAccount->getSoapVar(),
             'SubscriptionData' => $zSubscriptionData->getSoapVar(),
@@ -315,9 +310,9 @@ public function client() { return $this->_client; }
         }
 
         try {
-            $result = $this->call("subscribe", array('zObjects' => array($subscribeRequest)), null, $this->_header);
+            $result = $this->call('subscribe', array('zObjects' => array($subscribeRequest)), null, $this->_header);
         } catch (SoapFault $e) {
-            throw new ZuoraFault('ERROR in ' . __METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
+            throw new ZuoraFault('ERROR in '.__METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
         }
 
         return $result;
@@ -333,7 +328,7 @@ public function client() { return $this->_client; }
     public function create(array $zObjects)
     {
         if (count($zObjects) > 50) {
-            throw new ZuoraFault('ERROR in ' . __METHOD__ . ': only supports up to 50 objects');
+            throw new ZuoraFault('ERROR in '.__METHOD__.': only supports up to 50 objects');
         }
         $soapVars = array();
         $type = 'Zuora_Object';
@@ -343,19 +338,19 @@ public function client() { return $this->_client; }
                 $type = get_class($zObject);
                 $soapVars[] = $zObject->getSoapVar();
             } else {
-                throw new ZuoraFault('ERROR in ' . __METHOD__ . ': all objects must be of the same type');
+                throw new ZuoraFault('ERROR in '.__METHOD__.': all objects must be of the same type');
             }
         }
         $create = array(
-            "zObjects" => $soapVars
+            'zObjects' => $soapVars,
         );
         try {
-            $result = $this->call("create", $create, null, $this->_header);
+            $result = $this->call('create', $create, null, $this->_header);
             // echo $this->_client->__getLastRequest();
             // echo "\n\n";
             // echo $this->_client->__getLastResponse();
         } catch (SoapFault $e) {
-            throw new ZuoraFault('ERROR in ' . __METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
+            throw new ZuoraFault('ERROR in '.__METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
         }
 
         return $result;
@@ -371,7 +366,7 @@ public function client() { return $this->_client; }
     public function generate(array $zObjects)
     {
         if (count($zObjects) > 50) {
-            throw new ZuoraFault('ERROR in ' . __METHOD__ . ': only supports up to 50 objects');
+            throw new ZuoraFault('ERROR in '.__METHOD__.': only supports up to 50 objects');
         }
         $soapVars = array();
         $type = 'Zuora_Object';
@@ -380,16 +375,16 @@ public function client() { return $this->_client; }
                 $type = get_class($zObject);
                 $soapVars[] = $zObject->getSoapVar();
             } else {
-                throw new ZuoraFault('ERROR in ' . __METHOD__ . ': all objects must be of the same type');
+                throw new ZuoraFault('ERROR in '.__METHOD__.': all objects must be of the same type');
             }
         }
         $generate = array(
-            "zObjects" => $soapVars
+            'zObjects' => $soapVars,
         );
         try {
-            $result = $this->call("generate", $generate, null, $this->_header);
+            $result = $this->call('generate', $generate, null, $this->_header);
         } catch (SoapFault $e) {
-            throw new ZuoraFault('ERROR in ' . __METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
+            throw new ZuoraFault('ERROR in '.__METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
         }
 
         return $result;
@@ -405,7 +400,7 @@ public function client() { return $this->_client; }
     public function update(array $zObjects)
     {
         if (count($zObjects) > 50) {
-            ZuoraFault('ERROR in ' . __METHOD__ . ': only supports up to 50 objects');
+            ZuoraFault('ERROR in '.__METHOD__.': only supports up to 50 objects');
         }
         $soapVars = array();
         $type = 'Zuora_Object';
@@ -414,19 +409,19 @@ public function client() { return $this->_client; }
                 $type = get_class($zObject);
                 $soapVars[] = $zObject->getSoapVar();
             } else {
-                throw new ZuoraFault('ERROR in ' . __METHOD__ . ': all objects must be of the same type');
+                throw new ZuoraFault('ERROR in '.__METHOD__.': all objects must be of the same type');
             }
         }
         $update = array(
-            "zObjects" => $soapVars
+            'zObjects' => $soapVars,
         );
         try {
-            $result = $this->call("update", $update, null, $this->_header);
+            $result = $this->call('update', $update, null, $this->_header);
             // echo $this->_client->__getLastRequest();
             // echo "\n\n";
             // echo $this->_client->__getLastResponse();
         } catch (SoapFault $e) {
-            throw new ZuoraFault('ERROR in ' . __METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
+            throw new ZuoraFault('ERROR in '.__METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
         }
 
         return $result;
@@ -442,19 +437,19 @@ public function client() { return $this->_client; }
     public function delete($type, $ids)
     {
         $delete = array(
-            "type" => $type,
-            "ids"  => $ids,
+            'type' => $type,
+            'ids'  => $ids,
         );
         $deleteWrapper = array(
-            "delete" => $delete
+            'delete' => $delete,
         );
 
         try {
-            $result = $this->call("delete", $deleteWrapper, null, $this->_header);
+            $result = $this->call('delete', $deleteWrapper, null, $this->_header);
 
             $result->result->Success = $result->result->success;
         } catch (SoapFault $e) {
-            throw new ZuoraFault('ERROR in ' . __METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
+            throw new ZuoraFault('ERROR in '.__METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
         }
 
         return $result;
@@ -470,18 +465,18 @@ public function client() { return $this->_client; }
     public function execute($type, $syncronous, $ids)
     {
         $execute = array(
-            "type"        => $type,
-            "synchronous" => $syncronous,
-            "ids"         => $ids,
+            'type'        => $type,
+            'synchronous' => $syncronous,
+            'ids'         => $ids,
         );
         $executeWrapper = array(
-            "execute" => $execute
+            'execute' => $execute,
         );
 
         try {
-            $result = $this->call("execute", $executeWrapper, null, $this->_header);
+            $result = $this->call('execute', $executeWrapper, null, $this->_header);
         } catch (SoapFault $e) {
-            throw new ZuoraFault('ERROR in ' . __METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
+            throw new ZuoraFault('ERROR in '.__METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
         }
 
         return $result;
@@ -497,9 +492,9 @@ public function client() { return $this->_client; }
     public function getUserInfo()
     {
         try {
-            $result = $this->call("getUserInfo", array(), null, $this->_header);
+            $result = $this->call('getUserInfo', array(), null, $this->_header);
         } catch (SoapFault $e) {
-            throw new ZuoraFault('ERROR in ' . __METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
+            throw new ZuoraFault('ERROR in '.__METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
         }
 
         return $result;
@@ -515,17 +510,17 @@ public function client() { return $this->_client; }
     public function query($zoql)
     {
         $query = array(
-            "queryString" => $zoql
+            'queryString' => $zoql,
         );
         $queryWrapper = array(
-            "query" => $query
+            'query' => $query,
         );
 
         try {
-            $result = $this->call("query", $queryWrapper, null, $this->_header);
+            $result = $this->call('query', $queryWrapper, null, $this->_header);
         } catch (SoapFault $e) {
             //throw new ZuoraFault('ERROR in ' . __METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
-            die ('ERROR in ' . __METHOD__ . ' ' . $e->getMessage());
+            die('ERROR in '.__METHOD__.' '.$e->getMessage());
         }
 
         return $result;
@@ -540,34 +535,31 @@ public function client() { return $this->_client; }
      */
     public function queryMore($zoql)
     {
-
         $query = array(
-            "queryLocator" => $zoql
+            'queryLocator' => $zoql,
         );
         $queryWrapper = array(
-            "queryMore" => $query
+            'queryMore' => $query,
         );
 
         try {
-            $result = $this->call("queryMore", $queryWrapper, null, $this->_header);
+            $result = $this->call('queryMore', $queryWrapper, null, $this->_header);
         } catch (SoapFault $e) {
-            throw new ZuoraFault('ERROR in ' . __METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
+            throw new ZuoraFault('ERROR in '.__METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
         }
 
         return $result;
     }
 
     /**
-     * Enforce singleton; disallow cloning
-     *
-     * @return void
+     * Enforce singleton; disallow cloning.
      */
     private function __clone()
     {
     }
 
     /**
-     * Singleton instance
+     * Singleton instance.
      *
      * @return Zuora_API
      */
@@ -575,7 +567,8 @@ public function client() { return $this->_client; }
     {
         if (null === self::$_instance || $config != self::$_config) {
             self::$_instance = new self($config);
-        } 
+        }
+
         return self::$_instance;
     }
 
@@ -583,8 +576,8 @@ public function client() { return $this->_client; }
     {
         $call = $this->_client->__soapCall($function_name, $arguments, $options, $input_headers, $output_headers);
 
-        $soapRequest = $this->_client->__getLastRequest() . "\n\n";
-        $soapResponse = $this->_client->__getLastResponse() . "\n\n\n";
+        $soapRequest = $this->_client->__getLastRequest()."\n\n";
+        $soapResponse = $this->_client->__getLastResponse()."\n\n\n";
 
         // file_put_contents('/tmp/soap.xml', $soapRequest, FILE_APPEND) .  "\n";
         // file_put_contents('/tmp/soap.xml', $soapResponse, FILE_APPEND) .  "\n";

@@ -1,8 +1,9 @@
 <?php
-class Zuora_Subscription extends Zuora_Object
+
+class zuora_Subscription extends Zuora_Object
 {
     protected $zType = 'Subscription';
-    
+
     public function __construct()
     {
         // $date = date('Y-m-d\TH:i:s');

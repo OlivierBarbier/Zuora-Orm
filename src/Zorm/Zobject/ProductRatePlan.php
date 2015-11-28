@@ -1,29 +1,31 @@
 <?php
+
 namespace OlivierBarbier\Zorm\Zobject;
 
 class ProductRatePlan extends \OlivierBarbier\Zorm\Base
 {
-	protected $blackList = ['ActiveCurrencies'];
+    protected $blackList = ['ActiveCurrencies'];
 
-	public function addCharge(array $fields, $productRatePlanChargeTier)
-	{
-		$productRatePlanCharge = app('OlivierBarbier\Zorm\Zobject\ProductRatePlanCharge');
+    public function addCharge(array $fields, $productRatePlanChargeTier)
+    {
+        $productRatePlanCharge = app('OlivierBarbier\Zorm\Zobject\ProductRatePlanCharge');
 
-		$fields["ProductRatePlanId"] = $this->Id;
+        $fields['ProductRatePlanId'] = $this->Id;
 
-		$productRatePlanCharge->fill((object)$fields);
-		
-		$productRatePlanCharge->ProductRatePlanChargeTierData = $this->makeProductRatePlanChargeTierData($productRatePlanChargeTier);
+        $productRatePlanCharge->fill((object) $fields);
 
-		$create = $productRatePlanCharge->create();
+        $productRatePlanCharge->ProductRatePlanChargeTierData = $this->makeProductRatePlanChargeTierData($productRatePlanChargeTier);
 
-		return $productRatePlanCharge->find($create->result->Id);
-	}
+        $create = $productRatePlanCharge->create();
 
-	protected function makeProductRatePlanChargeTierData($productRatePlanChargeTier)
-	{
-		$productRatePlanChargeTierData = new \stdClass;
-		$productRatePlanChargeTierData->ProductRatePlanChargeTier = $productRatePlanChargeTier;
-		return $productRatePlanChargeTierData;
-	}
+        return $productRatePlanCharge->find($create->result->Id);
+    }
+
+    protected function makeProductRatePlanChargeTierData($productRatePlanChargeTier)
+    {
+        $productRatePlanChargeTierData = new \stdClass();
+        $productRatePlanChargeTierData->ProductRatePlanChargeTier = $productRatePlanChargeTier;
+
+        return $productRatePlanChargeTierData;
+    }
 }

@@ -1,5 +1,6 @@
 <?php
-class Zuora_Amendment extends Zuora_Object
+
+class zuora_Amendment extends Zuora_Object
 {
     protected $zType = 'Amendment';
 }

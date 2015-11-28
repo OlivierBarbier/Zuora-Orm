@@ -1,70 +1,72 @@
 <?php
+
 namespace OlivierBarbier\Zorm\Zobject;
 
 class Subscription extends \OlivierBarbier\Zorm\Base
 {
-	protected $blackList = ['AncestorAccountId'];
+    protected $blackList = ['AncestorAccountId'];
 
-	public function cancel($cancelDate) {
-		$instance = $this->zuora();
+    public function cancel($cancelDate)
+    {
+        $instance = $this->zuora();
 
-		$amendment = new \Zuora_Amendment();
-		$amendment->EffectiveDate = $cancelDate;
-		$amendment->Name = 'cancel' . time();
-		$amendment->Status = 'Draft';
-		$amendment->SubscriptionId = $this->Id;
-		$amendment->Type = 'Cancellation';
+        $amendment = new \Zuora_Amendment();
+        $amendment->EffectiveDate = $cancelDate;
+        $amendment->Name = 'cancel'.time();
+        $amendment->Status = 'Draft';
+        $amendment->SubscriptionId = $this->Id;
+        $amendment->Type = 'Cancellation';
 // var_dump($cancelDate, $amendment);
-		$result = $instance->create(array($amendment));
+        $result = $instance->create(array($amendment));
 
 // print_r($result);
 
-		$this->throwExceptionOnError($result);
+        $this->throwExceptionOnError($result);
 
-		if (isset($result->result->Id)) {
-			$amendmentId = $result->result->Id;	
-			$amendment = new \Zuora_Amendment();
-			$amendment->Id = $amendmentId;
-			$amendment->ContractEffectiveDate = date('Y-m-d');
-			$amendment->Status = 'Completed';
-			$result = $instance->update(array($amendment));
-		}
+        if (isset($result->result->Id)) {
+            $amendmentId = $result->result->Id;
+            $amendment = new \Zuora_Amendment();
+            $amendment->Id = $amendmentId;
+            $amendment->ContractEffectiveDate = date('Y-m-d');
+            $amendment->Status = 'Completed';
+            $result = $instance->update(array($amendment));
+        }
 
-		$this->throwExceptionOnError($result);
+        $this->throwExceptionOnError($result);
 
-		$zsub = $this->where("PreviousSubscriptionId", "=", $this->Id)
-			->get()
-			->first()
-			->castToZuora();
+        $zsub = $this->where('PreviousSubscriptionId', '=', $this->Id)
+            ->get()
+            ->first()
+            ->castToZuora();
 
-		$this->fill($zsub);
+        $this->fill($zsub);
 
-		return $result;
-	}
+        return $result;
+    }
 
-	public function domainNameRatePlans($columns = ['*'])
-	{
-		$columns = ($columns[0] != '*' ? array_unique(array_merge($columns, ['Name'])) : $columns);
+    public function domainNameRatePlans($columns = ['*'])
+    {
+        $columns = ($columns[0] != '*' ? array_unique(array_merge($columns, ['Name'])) : $columns);
 
-		return $this->ratePlans($columns)->filter(function($ratePlan) {
-			return false !== stripos($ratePlan->Name, 'Nom de domaine');
-		});
-	}
+        return $this->ratePlans($columns)->filter(function ($ratePlan) {
+            return false !== stripos($ratePlan->Name, 'Nom de domaine');
+        });
+    }
 
-	public function zenchefRatePlans($columns = ['*']) 
-	{
-		$columns = ($columns[0] != '*' ? array_unique(array_merge($columns, ['Name'])) : $columns);
+    public function zenchefRatePlans($columns = ['*'])
+    {
+        $columns = ($columns[0] != '*' ? array_unique(array_merge($columns, ['Name'])) : $columns);
 
-		return $this->ratePlans($columns)->filter(function($ratePlan) {
-			$product = $ratePlan->productRatePlan(['ProductId'])->product(['Name']);
+        return $this->ratePlans($columns)->filter(function ($ratePlan) {
+            $product = $ratePlan->productRatePlan(['ProductId'])->product(['Name']);
 
-			return 0 == strcasecmp($product->Name, 'BOOST') OR
-				0 == strcasecmp($product->Name, 'E-reputation') OR
-				0 == strcasecmp($product->Name, 'EXPRESS') OR
-				0 == strcasecmp($product->Name, 'Mobihotel') OR
-				false != stripos($product->Name, 'Formule') OR
-				false != stripos($product->Name, 'Abonnement')
-			;
-		});
-	}
+            return 0 == strcasecmp($product->Name, 'BOOST') or
+                0 == strcasecmp($product->Name, 'E-reputation') or
+                0 == strcasecmp($product->Name, 'EXPRESS') or
+                0 == strcasecmp($product->Name, 'Mobihotel') or
+                false != stripos($product->Name, 'Formule') or
+                false != stripos($product->Name, 'Abonnement')
+            ;
+        });
+    }
 }

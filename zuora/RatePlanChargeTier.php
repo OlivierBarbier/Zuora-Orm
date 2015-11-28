@@ -1,5 +1,6 @@
 <?php
-class Zuora_RatePlanChargeTier extends Zuora_Object
+
+class zuora_RatePlanChargeTier extends Zuora_Object
 {
     protected $zType = 'RatePlanChargeTier';
 }

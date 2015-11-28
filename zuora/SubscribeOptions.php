@@ -1,19 +1,18 @@
 <?php
-class Zuora_SubscribeOptions extends Zuora_Object
-{
 
+class zuora_SubscribeOptions extends Zuora_Object
+{
     const TYPE_NAMESPACE = 'http://api.zuora.com/';
 
     protected $zType = 'SubscribeOptions';
 
     protected $zGenerateInvoice;
     protected $zProcessPayments;
-    
+
     public function __construct(
         $zGenerateInvoice,
         $zProcessPayments
-    )
-    {
+    ) {
         $this->zGenerateInvoice = $zGenerateInvoice;
         $this->zProcessPayments = $zProcessPayments;
     }
@@ -22,8 +21,8 @@ class Zuora_SubscribeOptions extends Zuora_Object
     {
         return new SoapVar(
             array(
-                'GenerateInvoice'=>$this->zGenerateInvoice,
-                'ProcessPayments'=>$this->zProcessPayments
+                'GenerateInvoice' => $this->zGenerateInvoice,
+                'ProcessPayments' => $this->zProcessPayments,
             ),
             SOAP_ENC_OBJECT,
             $this->zType,
