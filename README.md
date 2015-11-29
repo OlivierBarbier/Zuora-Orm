@@ -37,3 +37,15 @@ $subscriptions->each(function($subscription) {
   echo $subscription->Name, "\n";
 });
 ```
+
+## Get all active subscriptions (1st approach)
+```
+$activeSubscriptions = $sameAccount->subscriptions()->where("Status", "=", "Active")->get();
+```
+
+## Get all active subscriptions (2nd approach)
+```
+$activeSubscriptions = $sameAccount->subscriptions->filter(function($subscription) {
+  return $subscription->Status == "Active";
+});
+```
