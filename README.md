@@ -49,7 +49,7 @@ foreach($subscriptions as $subscription)
   echo $subscription->Name, "\n";
 }
 
-// loop over them the function way
+// loop over them the functional way
 $subscriptions->each(function($subscription) {
   echo $subscription->Name, "\n";
 });
