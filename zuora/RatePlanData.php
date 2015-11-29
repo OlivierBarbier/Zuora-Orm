@@ -1,6 +1,6 @@
 <?php
 
-class zuora_RatePlanData extends Zuora_Object
+class Zuora_RatePlanData extends Zuora_Object
 {
     const TYPE_NAMESPACE = 'http://api.zuora.com/';
 

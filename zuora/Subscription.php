@@ -1,6 +1,6 @@
 <?php
 
-class zuora_Subscription extends Zuora_Object
+class Zuora_Subscription extends Zuora_Object
 {
     protected $zType = 'Subscription';
 

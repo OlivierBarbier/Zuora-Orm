@@ -1,6 +1,6 @@
 <?php
 
-class zuora_InvoiceItemAdjustment extends Zuora_Object
+class Zuora_InvoiceItemAdjustment extends Zuora_Object
 {
     protected $zType = 'InvoiceItemAdjustment';
 }

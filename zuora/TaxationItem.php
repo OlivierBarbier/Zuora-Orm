@@ -1,6 +1,6 @@
 <?php
 
-class zuora_TaxationItem extends Zuora_Object
+class Zuora_TaxationItem extends Zuora_Object
 {
     protected $zType = 'TaxationItem';
 }

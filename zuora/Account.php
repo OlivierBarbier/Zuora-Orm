@@ -1,6 +1,6 @@
 <?php
 
-class zuora_Account extends Zuora_Object
+class Zuora_Account extends Zuora_Object
 {
     protected $zType = 'Account';
 

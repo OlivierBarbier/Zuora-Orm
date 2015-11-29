@@ -1,6 +1,6 @@
 <?php
 
-class zuora_SubscribeOptions extends Zuora_Object
+class Zuora_SubscribeOptions extends Zuora_Object
 {
     const TYPE_NAMESPACE = 'http://api.zuora.com/';
 
