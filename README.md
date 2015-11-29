@@ -28,7 +28,7 @@ printf('Account Name: %s, Account Id: %s', $sameAccount->Name, $sameAccount->Id)
 
 $subscriptions = $sameAccount->subscriptions;
 
-// loop over then the procedural way
+// loop over them the procedural way
 foreach($subscriptions as $subscription)
 {
   echo $subscription->Name, "\n";
