@@ -17,7 +17,6 @@ $config = [
     'password'  => 'your_zuora_password',
 ];
 
-
 $accountRepository = new Account($config);
 
 $account = $accountRepository->first();
