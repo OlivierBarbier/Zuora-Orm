@@ -7,7 +7,7 @@
         "php"
     ],
     "license": "MIT",
-	"autoload": {
+    "autoload": {
         "psr-4" : {
             "OlivierBarbier\\": "src/"
         },
