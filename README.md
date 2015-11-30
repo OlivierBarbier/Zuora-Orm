@@ -3,20 +3,6 @@
 ## Install via composer
 `composer require "olivierbarbier/zuora-orm:dev-master"`
 
-then edit the config.php
-
-````
-<?php
-// vendor/olivierbarbier/zuora-orm/config/config.php
-
-return [
-    'wsdl'      => 'absolute/path/to/your/zuora.wsdl',
-    'endpoint'  => 'https://apisandbox.zuora.com/apps/services/a/71.0',
-    'user'      => 'your_zuora_login',
-    'password'  => 'your_zuora_password',
-];
-````
-
 ## Get the first Zuora Account
 ```
 <?php
@@ -24,7 +10,15 @@ require 'vendor/autoload.php';
 
 use OlivierBarbier\Zorm\Zobject\Account;
 
-$accountRepository = new Account;
+$config = [
+    'wsdl'      => 'absolute/path/to/your/zuora.wsdl',
+    'endpoint'  => 'https://apisandbox.zuora.com/apps/services/a/71.0',
+    'user'      => 'your_zuora_login',
+    'password'  => 'your_zuora_password',
+];
+
+
+$accountRepository = new Account($config);
 
 $account = $accountRepository->first();
 
