@@ -39,13 +39,15 @@ abstract class Base
     /**
      * @var array
      */
-    protected $config;
+    protected static $config;
 
     /**
      */
-    public function __construct()
+    public function __construct($config = null)
     {
-        $this->config = require __DIR__.'/../../config/config.php';
+        if ( ! is_null($config)) {
+            self::$config = $config;
+        }
 
         $this->queryBuilder = $this->newQueryBuilder();
 
@@ -56,7 +58,7 @@ abstract class Base
      */
     protected function boot()
     {
-        $xml = simplexml_load_file($this->config['wsdl']);
+        $xml = simplexml_load_file(static::$config['wsdl']);
 
         $array = $xml->xpath($this->getXpath());
 
@@ -350,7 +352,7 @@ abstract class Base
      */
     public function newQueryBuilder()
     {
-        $builder = new Builder($this->config);
+        $builder = new Builder(static::$config);
 
         $builder->setModel($this);
 
