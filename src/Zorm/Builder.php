@@ -56,8 +56,7 @@ class Builder
 
         return 'select '.implode(', ', $fields)
             .' from '
-            .$this->model->getClassNameWithoutNamespace().' '
-        ;
+            .$this->model->getClassNameWithoutNamespace().' ';
     }
 
     /**
@@ -207,7 +206,7 @@ class Builder
         $relations = [];
 
         foreach ($records as $record) {
-            $relations[] = clone($repo->fill($record));
+            $relations[] = clone $repo->fill($record);
         }
 
         return new Collection($relations);

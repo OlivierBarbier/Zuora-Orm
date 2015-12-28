@@ -1,11 +1,11 @@
 <?php
 
-class Zuora_BillRun extends Zuora_Object
+class zuora_BillRun extends Zuora_Object
 {
     protected $zType = 'BillRun';
 
     public function __construct()
     {
-        $this->_data = array();
+        $this->_data = [];
     }
 }
