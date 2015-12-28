@@ -1,6 +1,6 @@
 <?php
 
-class Zuora_Usage extends Zuora_Object
+class zuora_Usage extends Zuora_Object
 {
     protected $zType = 'Usage';
 }

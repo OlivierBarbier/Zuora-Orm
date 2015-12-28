@@ -1,6 +1,6 @@
 <?php
 
-class Zuora_RatePlanChargeData extends Zuora_Object
+class zuora_RatePlanChargeData extends Zuora_Object
 {
     const TYPE_NAMESPACE = 'http://api.zuora.com/';
 
@@ -14,7 +14,7 @@ class Zuora_RatePlanChargeData extends Zuora_Object
     /**
      * @var array
      */
-    private $_ratePlanChargeTierObjects = array();
+    private $_ratePlanChargeTierObjects = [];
 
     public function __construct(Zuora_RatePlanCharge  $zRatePlanCharge = null)
     {
@@ -32,16 +32,16 @@ class Zuora_RatePlanChargeData extends Zuora_Object
 
     public function getSoapVar()
     {
-        $ratePlanChargeTierObjects = array();
+        $ratePlanChargeTierObjects = [];
         foreach ($this->_ratePlanChargeTierObjects as $object) {
             $ratePlanChargeTierObjects[] = $object->getSoapVar();
         }
 
         return new SoapVar(
-            array(
-                'RatePlanCharge' => $this->zRatePlanCharge->getSoapVar(),
+            [
+                'RatePlanCharge'     => $this->zRatePlanCharge->getSoapVar(),
                 'RatePlanChargeTier' => $ratePlanChargeTierObjects,
-            ),
+            ],
             SOAP_ENC_OBJECT,
             $this->zType,
             self::TYPE_NAMESPACE
