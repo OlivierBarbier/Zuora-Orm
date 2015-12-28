@@ -1,6 +1,7 @@
 # Zuora ORM
 
 [![StyleCI](https://styleci.io/repos/47043649/shield)](https://styleci.io/repos/47043649)
+[![Build Status](https://api.travis-ci.org/OlivierBarbier/Zorm.svg)](https://travis-ci.org/OlivierBarbier/Zorm)
 [![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/olivierbarbier/zuora-orm)
 
 - [Introduction](#introduction)
