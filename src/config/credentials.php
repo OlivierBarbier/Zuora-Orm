@@ -1,4 +1,5 @@
 <?php
+
 return [
     'wsdl'     => __DIR__.'/../'.'config/zuora.wsdl',
     'endpoint' => 'https://apisandbox.zuora.com/apps/services/a/63.0',
