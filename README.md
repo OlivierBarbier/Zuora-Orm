@@ -1,5 +1,7 @@
 # Zuora ORM
 
+[![StyleCI](https://styleci.io/repos/47043649/shield)](https://styleci.io/repos/47043649)
+
 - [Introduction](#introduction)
 - [Basic Usage](#basic-usage)
 - [Insert, Update, Delete](#insert-update-delete)
