@@ -21,7 +21,7 @@ class Account extends \OlivierBarbier\Zorm\Base
         $account->Id = $this->Id;
         $account->Status = 'Canceled';
 
-        $update = $instance->update(array($account));
+        $update = $instance->update([$account]);
 
         $this->throwExceptionOnError($update);
 

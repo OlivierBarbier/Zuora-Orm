@@ -17,7 +17,7 @@ class Subscription extends \OlivierBarbier\Zorm\Base
         $amendment->SubscriptionId = $this->Id;
         $amendment->Type = 'Cancellation';
 // var_dump($cancelDate, $amendment);
-        $result = $instance->create(array($amendment));
+        $result = $instance->create([$amendment]);
 
 // print_r($result);
 
@@ -29,7 +29,7 @@ class Subscription extends \OlivierBarbier\Zorm\Base
             $amendment->Id = $amendmentId;
             $amendment->ContractEffectiveDate = date('Y-m-d');
             $amendment->Status = 'Completed';
-            $result = $instance->update(array($amendment));
+            $result = $instance->update([$amendment]);
         }
 
         $this->throwExceptionOnError($result);
@@ -65,8 +65,7 @@ class Subscription extends \OlivierBarbier\Zorm\Base
                 0 == strcasecmp($product->Name, 'EXPRESS') or
                 0 == strcasecmp($product->Name, 'Mobihotel') or
                 false != stripos($product->Name, 'Formule') or
-                false != stripos($product->Name, 'Abonnement')
-            ;
+                false != stripos($product->Name, 'Abonnement');
         });
     }
 }
