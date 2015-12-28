@@ -1,6 +1,7 @@
 # Zuora ORM
 
 [![StyleCI](https://styleci.io/repos/47043649/shield)](https://styleci.io/repos/47043649)
+[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/olivierbarbier/zuora-orm)
 
 - [Introduction](#introduction)
 - [Basic Usage](#basic-usage)
