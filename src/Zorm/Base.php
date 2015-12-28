@@ -2,9 +2,9 @@
 
 namespace OlivierBarbier\Zorm;
 
-*
+/*
  * @package OlivierBarbier\Zorm
- 
+ */
 class UnsupportedCallException extends \Exception
 {
 }
