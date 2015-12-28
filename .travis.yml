@@ -10,6 +10,7 @@ env:
 sudo: false
 
 install:
+  - /home/travis/.phpenv/versions/5.6/bin/composer self-update
   - travis_retry composer install --no-interaction --prefer-source;
 
 script: vendor/bin/phpunit
