@@ -47,7 +47,7 @@ abstract class Base
     public function __construct($config = null)
     {
         if (is_null($config)) {
-            self::$config = require __DIR__ . '/../' . 'config/credentials.php';
+            self::$config = require __DIR__.'/../'.'config/credentials.php';
         }
 
         $this->queryBuilder = $this->newQueryBuilder();
@@ -87,7 +87,7 @@ abstract class Base
     public function __call($method, $parameters)
     {
         if (in_array($method, $this->supportedCalls)) {
-            return call_user_func_array(array($this->zuora(), $method), $parameters);
+            return call_user_func_array([$this->zuora(), $method], $parameters);
         }
 
         $namespace = 'OlivierBarbier\Zorm\Zobject\\';
@@ -128,7 +128,7 @@ abstract class Base
      */
     public static function find($id, $columns = ['*'], $matchAll = false)
     {
-        $instance = new static;
+        $instance = new static();
 
         return $instance->newQueryBuilder()->where('id', '=', $id)->get($columns, $matchAll)->first();
     }
@@ -169,8 +169,7 @@ abstract class Base
         $parentName = $this->getClassNameWithoutNamespace();
 
         $builder = $son->newQueryBuilder()
-            ->where("{$parentName}Id", '=', $this->Id)
-        ;
+            ->where("{$parentName}Id", '=', $this->Id);
 
         if ($returnBuilder) {
             return $builder;
@@ -260,10 +259,9 @@ abstract class Base
 
     public static function create($columns)
     {
-        $instance = new static;
+        $instance = new static();
 
-        foreach($columns as $k => $v)
-        {
+        foreach ($columns as $k => $v) {
             $instance->$k = $v;
         }
 
@@ -334,7 +332,7 @@ abstract class Base
      */
     public static function where($attribute, $operator, $value)
     {
-        $instance = new static;
+        $instance = new static();
 
         return $instance->queryBuilder->where($attribute, $operator, $value);
     }
