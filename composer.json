@@ -20,6 +20,7 @@
     },
     "require-dev": {
         "php-vcr/php-vcr": "^1.2",
-        "php-vcr/phpunit-testlistener-vcr": "^1.1"
+        "php-vcr/phpunit-testlistener-vcr": "^1.1",
+        "phpunit/phpunit": "^5.1"
     }
 }
