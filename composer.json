@@ -17,5 +17,9 @@
     },
     "require": {
         "illuminate/support": "^4.2"
+    },
+    "require-dev": {
+        "php-vcr/php-vcr": "^1.2",
+        "php-vcr/phpunit-testlistener-vcr": "^1.1"
     }
 }
