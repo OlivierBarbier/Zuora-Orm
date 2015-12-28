@@ -1,6 +1,6 @@
 <?php
 
-class zuora_Payment extends Zuora_Object
+class Zuora_Payment extends Zuora_Object
 {
     protected $zType = 'Payment';
 }

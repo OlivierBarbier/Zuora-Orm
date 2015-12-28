@@ -29,9 +29,9 @@ class Sandbox
      * @param string $method
      * @param array  $parameters
      *
-     * @throws \BadMethodCallException
-     *
      * @return mixed
+     *
+     * @throws \BadMethodCallException
      */
     public function __call($method, $parameters)
     {

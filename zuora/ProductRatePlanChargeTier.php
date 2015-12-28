@@ -1,13 +1,13 @@
 <?php
 
-class zuora_ProductRatePlanChargeTier extends Zuora_Object
+class Zuora_ProductRatePlanChargeTier extends Zuora_Object
 {
     protected $zType = 'ProductRatePlanChargeTier';
 
     public function __construct()
     {
-        $this->_data = [
+        $this->_data = array(
             'ProductRatePlanTierId' => null,
-        ];
+        );
     }
 }

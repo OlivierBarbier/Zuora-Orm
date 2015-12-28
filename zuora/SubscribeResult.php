@@ -1,6 +1,6 @@
 <?php
 
-class zuora_SubscribeResult extends Zuora_Object
+class Zuora_SubscribeResult extends Zuora_Object
 {
     protected $zType = 'Zuora_SubscribeResult';
 }

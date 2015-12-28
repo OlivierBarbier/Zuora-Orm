@@ -1,6 +1,6 @@
 <?php
 
-class zuora_PaymentMethodSnapshot extends Zuora_Object
+class Zuora_PaymentMethodSnapshot extends Zuora_Object
 {
     protected $zType = 'PaymentMethodSnapshot';
 }

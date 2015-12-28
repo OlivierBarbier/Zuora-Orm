@@ -1,6 +1,6 @@
 <?php
 
-class zuora_SubscriptionData extends Zuora_Object
+class Zuora_SubscriptionData extends Zuora_Object
 {
     const TYPE_NAMESPACE = 'http://api.zuora.com/';
 
@@ -14,7 +14,7 @@ class zuora_SubscriptionData extends Zuora_Object
     /**
      * @var array
      */
-    private $_ratePlanDataObjects = [];
+    private $_ratePlanDataObjects = array();
 
     public function __construct(Zuora_Subscription $zSubscription = null)
     {
@@ -37,10 +37,10 @@ class zuora_SubscriptionData extends Zuora_Object
         }
 
         return new SoapVar(
-            [
+            array(
                 'Subscription' => $this->zSubscription->getSoapVar(),
                 'RatePlanData' => $ratePlanDataObjects,
-            ],
+            ),
             SOAP_ENC_OBJECT,
             $this->zType,
             self::TYPE_NAMESPACE

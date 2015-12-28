@@ -1,12 +1,12 @@
 <?php
 
-abstract class zuora_Object
+abstract class Zuora_Object
 {
     const TYPE_NAMESPACE = 'http://object.api.zuora.com/';
 
     protected $zType = 'zObject';
 
-    protected $_data = [];
+    protected $_data = array();
 
     /**
      * @param $name string

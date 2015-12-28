@@ -87,12 +87,10 @@ class Zuora_API
      * @var SoapClient
      */
     protected $_client;
-
     public function client()
     {
         return $this->_client;
     }
-
     /**
      * @var SoapHeader
      */
@@ -100,7 +98,7 @@ class Zuora_API
 
     protected $_endpoint = null;
 
-    protected static $_classmap = [
+    protected static $_classmap = array(
         'zObject'                       => 'Zuora_Object',
         'Account'                       => 'Zuora_Account',
         'InvoiceAdjustment'             => 'Zuora_InvoiceAdjustment',
@@ -157,7 +155,7 @@ class Zuora_API
         'TaxationItem'                  => 'Zuora_TaxationItem',
         'PaymentMethodSnapshot'         => 'Zuora_PaymentMethodSnapshot',
         'RefundInvoicePayment'          => 'Zuora_RefundInvoicePayment',
-    ];
+    );
 
     /**
      * Constructor.
@@ -170,21 +168,21 @@ class Zuora_API
         self::$_config = $config;
 
         $this->_client = new SoapClient(self::$_config->wsdl,
-            [
+            array(
                 'soap_version' => SOAP_1_1,
                 'trace'        => 1,
                 'classmap'     => self::$_classmap,
                 'cache_wsdl'   => WSDL_CACHE_NONE,
-            ]
+            )
         );
     }
 
     /**
      * Log in to Zuora and create a session.
      *
-     * @throws ZuoraFault
-     *
      * @return bool
+     *
+     * @throws ZuoraFault
      */
     public function login($username, $password)
     {
@@ -192,16 +190,16 @@ class Zuora_API
             $this->setLocation($this->_endpoint);
         }
         try {
-            $result = $this->_client->login(['username' => $username, 'password' => $password]);
+            $result = $this->_client->login(array('username' => $username, 'password' => $password));
         } catch (SoapFault $e) {
             throw new ZuoraFault('ERROR in '.__METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
         }
         $header = new SoapHeader(
             'http://api.zuora.com/',
             'SessionHeader',
-            [
+            array(
                 'session' => $result->result->Session,
-            ]
+            )
         );
         $this->addHeader($header);
         $this->_client->__setLocation($result->result->ServerUrl);
@@ -217,7 +215,7 @@ class Zuora_API
     public function addHeader($hdr)
     {
         if (!$this->_header) {
-            $this->_header = [];
+            $this->_header = array();
         }
         $this->_header[] = $hdr;
     }
@@ -227,9 +225,9 @@ class Zuora_API
         $header = new SoapHeader(
             'http://api.zuora.com/',
             'QueryOptions',
-            [
+            array(
                 'batchSize' => $batchSize,
-            ]
+            )
         );
         $this->addHeader($header);
     }
@@ -239,10 +237,10 @@ class Zuora_API
         $header = new SoapHeader(
             'http://api.zuora.com/',
             'QueueHeader',
-            [
+            array(
                 'resultEmail' => $resultEmail,
                 'userId'      => $userId,
-            ]
+            )
         );
         $this->addHeader($header);
     }
@@ -256,9 +254,9 @@ class Zuora_API
     /**
      * Execute subscribe() API call.
      *
-     * @throws ZuoraFault
-     *
      * @return result object
+     *
+     * @throws ZuoraFault
      */
     public function subscribe(
         Zuora_Account $zAccount,
@@ -268,13 +266,13 @@ class Zuora_API
         Zuora_SubscribeOptions $zSubscribeOptions = null,
         Zuora_Contact $zSoldToContact = null
     ) {
-        $subscribeRequest = [
+        $subscribeRequest = array(
             'Account'          => $zAccount->getSoapVar(),
             'SubscriptionData' => $zSubscriptionData->getSoapVar(),
-        ];
+        );
 
         // Optional variables
-        foreach (['BillToContact', 'PaymentMethod', 'SoldToContact', 'SubscribeOptions'] as $var) {
+        foreach (array('BillToContact', 'PaymentMethod', 'SoldToContact', 'SubscribeOptions') as $var) {
             $localVarName = "z{$var}";
             if (isset($$localVarName)) {
                 $subscribeRequest[$var] = $$localVarName->getSoapVar();
@@ -282,7 +280,7 @@ class Zuora_API
         }
 
         try {
-            $result = $this->call('subscribe', ['zObjects' => [$subscribeRequest]], null, $this->_header);
+            $result = $this->call('subscribe', array('zObjects' => array($subscribeRequest)), null, $this->_header);
         } catch (SoapFault $e) {
             throw new ZuoraFault('ERROR in '.__METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
         }
@@ -293,26 +291,26 @@ class Zuora_API
     /**
      * Execute subscribeWithExistingAccount() API call.
      *
-     * @throws ZuoraFault
-     *
      * @return result object
+     *
+     * @throws ZuoraFault
      */
     public function subscribeWithExistingAccount(
         Zuora_Account $zAccount,
         Zuora_SubscriptionData $zSubscriptionData,
         Zuora_SubscribeOptions $zSubscribeOptions = null
     ) {
-        $subscribeRequest = [
+        $subscribeRequest = array(
             'Account'          => $zAccount->getSoapVar(),
             'SubscriptionData' => $zSubscriptionData->getSoapVar(),
-        ];
+        );
 
         if (isset($zSubscribeOptions)) {
             $subscribeRequest['SubscribeOptions'] = $zSubscribeOptions->getSoapVar();
         }
 
         try {
-            $result = $this->call('subscribe', ['zObjects' => [$subscribeRequest]], null, $this->_header);
+            $result = $this->call('subscribe', array('zObjects' => array($subscribeRequest)), null, $this->_header);
         } catch (SoapFault $e) {
             throw new ZuoraFault('ERROR in '.__METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
         }
@@ -323,16 +321,16 @@ class Zuora_API
     /**
      * Execute create() API call.
      *
-     * @throws ZuoraFault
-     *
      * @return result object
+     *
+     * @throws ZuoraFault
      */
     public function create(array $zObjects)
     {
         if (count($zObjects) > 50) {
             throw new ZuoraFault('ERROR in '.__METHOD__.': only supports up to 50 objects');
         }
-        $soapVars = [];
+        $soapVars = array();
         $type = 'Zuora_Object';
 
         foreach ($zObjects as $zObject) {
@@ -343,9 +341,9 @@ class Zuora_API
                 throw new ZuoraFault('ERROR in '.__METHOD__.': all objects must be of the same type');
             }
         }
-        $create = [
+        $create = array(
             'zObjects' => $soapVars,
-        ];
+        );
         try {
             $result = $this->call('create', $create, null, $this->_header);
             // echo $this->_client->__getLastRequest();
@@ -361,16 +359,16 @@ class Zuora_API
     /**
      * Execute generate() API call.
      *
-     * @throws ZuoraFault
-     *
      * @return result object
+     *
+     * @throws ZuoraFault
      */
     public function generate(array $zObjects)
     {
         if (count($zObjects) > 50) {
             throw new ZuoraFault('ERROR in '.__METHOD__.': only supports up to 50 objects');
         }
-        $soapVars = [];
+        $soapVars = array();
         $type = 'Zuora_Object';
         foreach ($zObjects as $zObject) {
             if ($zObject instanceof $type) {
@@ -380,9 +378,9 @@ class Zuora_API
                 throw new ZuoraFault('ERROR in '.__METHOD__.': all objects must be of the same type');
             }
         }
-        $generate = [
+        $generate = array(
             'zObjects' => $soapVars,
-        ];
+        );
         try {
             $result = $this->call('generate', $generate, null, $this->_header);
         } catch (SoapFault $e) {
@@ -395,16 +393,16 @@ class Zuora_API
     /**
      * Execute update() API call.
      *
-     * @throws ZuoraFault
-     *
      * @return result object
+     *
+     * @throws ZuoraFault
      */
     public function update(array $zObjects)
     {
         if (count($zObjects) > 50) {
             ZuoraFault('ERROR in '.__METHOD__.': only supports up to 50 objects');
         }
-        $soapVars = [];
+        $soapVars = array();
         $type = 'Zuora_Object';
         foreach ($zObjects as $zObject) {
             if ($zObject instanceof $type) {
@@ -414,9 +412,9 @@ class Zuora_API
                 throw new ZuoraFault('ERROR in '.__METHOD__.': all objects must be of the same type');
             }
         }
-        $update = [
+        $update = array(
             'zObjects' => $soapVars,
-        ];
+        );
         try {
             $result = $this->call('update', $update, null, $this->_header);
             // echo $this->_client->__getLastRequest();
@@ -432,19 +430,19 @@ class Zuora_API
     /**
      * Execute delete() API call.
      *
-     * @throws ZuoraFault
-     *
      * @return result object
+     *
+     * @throws ZuoraFault
      */
     public function delete($type, $ids)
     {
-        $delete = [
+        $delete = array(
             'type' => $type,
             'ids'  => $ids,
-        ];
-        $deleteWrapper = [
+        );
+        $deleteWrapper = array(
             'delete' => $delete,
-        ];
+        );
 
         try {
             $result = $this->call('delete', $deleteWrapper, null, $this->_header);
@@ -460,20 +458,20 @@ class Zuora_API
     /**
      * Execute executet() API call.
      *
-     * @throws ZuoraFault
-     *
      * @return result object
+     *
+     * @throws ZuoraFault
      */
     public function execute($type, $syncronous, $ids)
     {
-        $execute = [
+        $execute = array(
             'type'        => $type,
             'synchronous' => $syncronous,
             'ids'         => $ids,
-        ];
-        $executeWrapper = [
+        );
+        $executeWrapper = array(
             'execute' => $execute,
-        ];
+        );
 
         try {
             $result = $this->call('execute', $executeWrapper, null, $this->_header);
@@ -487,14 +485,14 @@ class Zuora_API
     /**
      * Execute getUserInfo() API call.
      *
-     * @throws ZuoraFault
-     *
      * @return result object
+     *
+     * @throws ZuoraFault
      */
     public function getUserInfo()
     {
         try {
-            $result = $this->call('getUserInfo', [], null, $this->_header);
+            $result = $this->call('getUserInfo', array(), null, $this->_header);
         } catch (SoapFault $e) {
             throw new ZuoraFault('ERROR in '.__METHOD__, $e, $this->_client->__getLastRequestHeaders(), $this->_client->__getLastRequest(), $this->_client->__getLastResponseHeaders(), $this->_client->__getLastResponse());
         }
@@ -505,18 +503,18 @@ class Zuora_API
     /**
      * Execute query() API call.
      *
-     * @throws ZuoraFault
-     *
      * @return result object
+     *
+     * @throws ZuoraFault
      */
     public function query($zoql)
     {
-        $query = [
+        $query = array(
             'queryString' => $zoql,
-        ];
-        $queryWrapper = [
+        );
+        $queryWrapper = array(
             'query' => $query,
-        ];
+        );
 
         try {
             $result = $this->call('query', $queryWrapper, null, $this->_header);
@@ -531,18 +529,18 @@ class Zuora_API
     /**
      * Execute queryMore() API call.
      *
-     * @throws ZuoraFault
-     *
      * @return result object
+     *
+     * @throws ZuoraFault
      */
     public function queryMore($zoql)
     {
-        $query = [
+        $query = array(
             'queryLocator' => $zoql,
-        ];
-        $queryWrapper = [
+        );
+        $queryWrapper = array(
             'queryMore' => $query,
-        ];
+        );
 
         try {
             $result = $this->call('queryMore', $queryWrapper, null, $this->_header);

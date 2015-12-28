@@ -1,6 +1,6 @@
 <?php
 
-class zuora_SubscribeRequest extends Zuora_Object
+class Zuora_SubscribeRequest extends Zuora_Object
 {
     protected $zType = 'SubscribeRequest';
 
@@ -12,12 +12,12 @@ class zuora_SubscribeRequest extends Zuora_Object
         Zuora_SubscribeOptions $zOptions = null,
         Zuora_Contact $zSoldTo = null
     ) {
-        $this->_data = [
-            'Account'          => $zAccount,
-            'BillTo'           => $zBillTo,
-            'PaymentMethod'    => $zPaymentMethod,
+        $this->_data = array(
+            'Account' => $zAccount,
+            'BillTo' => $zBillTo,
+            'PaymentMethod' => $zPaymentMethod,
             'SubscriptionData' => $zSubscriptionData,
-        ];
+        );
         if (isset($zSoldTo)) {
             $this->_data['SoldToContact'] = $zSoldTo;
         }
