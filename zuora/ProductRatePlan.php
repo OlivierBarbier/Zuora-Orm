@@ -1,6 +1,6 @@
 <?php
 
-class Zuora_ProductRatePlan extends Zuora_Object
+class zuora_ProductRatePlan extends Zuora_Object
 {
     protected $zType = 'ProductRatePlan';
 }

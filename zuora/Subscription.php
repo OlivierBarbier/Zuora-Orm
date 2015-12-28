@@ -1,13 +1,13 @@
 <?php
 
-class Zuora_Subscription extends Zuora_Object
+class zuora_Subscription extends Zuora_Object
 {
     protected $zType = 'Subscription';
 
     public function __construct()
     {
         // $date = date('Y-m-d\TH:i:s');
-        $this->_data = array(
+        $this->_data = [
             // 'AutoRenew'=>1,
             // 'ContractAcceptanceDate'=>$date,
             // 'ContractEffectiveDate'=>$date,
@@ -18,6 +18,6 @@ class Zuora_Subscription extends Zuora_Object
             // 'Status'=>'Active',
             // 'TermStartDate'=>$date,
             // 'Version'=>1,
-        );
+        ];
     }
 }
