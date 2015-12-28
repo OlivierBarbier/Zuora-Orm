@@ -45,8 +45,8 @@ abstract class Base
      */
     public function __construct($config = null)
     {
-        if ( ! is_null($config)) {
-            self::$config = $config;
+        if (is_null($config)) {
+            self::$config = require __DIR__ . '/../' . 'config/credentials.php';
         }
 
         $this->queryBuilder = $this->newQueryBuilder();
@@ -125,9 +125,11 @@ abstract class Base
      *
      * @return \OlivierBarbier\Zorm\Base | null
      */
-    public function find($id, $columns = ['*'], $matchAll = false)
+    public static function find($id, $columns = ['*'], $matchAll = false)
     {
-        return $this->newQueryBuilder()->where('id', '=', $id)->get($columns, $matchAll)->first();
+        $instance = new static;
+
+        return $instance->newQueryBuilder()->where('id', '=', $id)->get($columns, $matchAll)->first();
     }
 
     /**
@@ -255,13 +257,20 @@ abstract class Base
         $this->fields[$key] = $value;
     }
 
-    public function create()
+    public static function create($columns)
     {
-        $create = $this->zuora()->create([$this->castToZuora()]);
+        $instance = new static;
 
-        $this->throwExceptionOnError($create);
+        foreach($columns as $k => $v)
+        {
+            $instance->$k = $v;
+        }
 
-        return $create;
+        $create = $instance->zuora()->create([$instance->castToZuora()]);
+
+        $instance->throwExceptionOnError($create);
+
+        return $instance->find($create->result->Id);
     }
 
     public function save($columns = ['*'])
@@ -322,9 +331,11 @@ abstract class Base
      *
      * @return \OlivierBarbier\Zorm\Builder
      */
-    public function where($attribute, $operator, $value)
+    public static function where($attribute, $operator, $value)
     {
-        return $this->queryBuilder->where($attribute, $operator, $value);
+        $instance = new static;
+
+        return $instance->queryBuilder->where($attribute, $operator, $value);
     }
 
     /**
