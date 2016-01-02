@@ -1,7 +1,7 @@
 # Zuora ORM
 
-[![StyleCI](https://styleci.io/repos/47043649/shield?v1)](https://styleci.io/repos/47043649)
-[![Build Status](https://travis-ci.org/OlivierBarbier/Zorm.svg?branch=master)](https://travis-ci.org/OlivierBarbier/Zorm)
+[![StyleCI](https://styleci.io/repos/47043649/shield?v2)](https://styleci.io/repos/47043649)
+[![Build Status](https://travis-ci.org/OlivierBarbier/Zuora-Orm.svg?branch=master)](https://travis-ci.org/OlivierBarbier/Zuora-Orm)
 [![Latest Stable Version](https://poser.pugx.org/olivierbarbier/zuora-orm/v/stable)](https://packagist.org/packages/olivierbarbier/zuora-orm) [![Total Downloads](https://poser.pugx.org/olivierbarbier/zuora-orm/downloads)](https://packagist.org/packages/olivierbarbier/zuora-orm) [![Latest Unstable Version](https://poser.pugx.org/olivierbarbier/zuora-orm/v/unstable)](https://packagist.org/packages/olivierbarbier/zuora-orm) [![License](https://poser.pugx.org/olivierbarbier/zuora-orm/license)](https://packagist.org/packages/olivierbarbier/zuora-orm)
 - [Introduction](#introduction)
 - [Basic Usage](#basic-usage)
@@ -14,7 +14,7 @@
 <a name="introduction"></a>
 ## Introduction
 
-The Zuora ORM provides a simple ActiveRecord implementation for working with Zuora objects. Each zuora object has a corresponding "Model" which is used to interact with that object.
+The Zuora ORM provides a simple way for working with Zuora objects without writing ZOQL queries. Each zuora object has a corresponding "Model" which is used to interact with that object.
 
 <a name="basic-usage"></a>
 ## Basic Usage
@@ -29,7 +29,7 @@ The Zuora ORM provides a simple ActiveRecord implementation for working with Zuo
 
 	var_dump($account->Name);
 
-#### Querying Using Eloquent Models
+#### Querying Using Zuora ORM Models
 
 	$accounts = Account::where('Status', '=', 'Active')->get();
 
@@ -44,35 +44,13 @@ Of course, you may also use the query builder aggregate functions.
 
 	$count = Account::where('Status', '=', 100)->get()->count();
 
-#### Specifying The Query Connection
-
-You may also specify which database connection should be used when running an Eloquent query. Simply use the `on` method:
-
-	$user = User::on('connection-name')->find(1);
-
 <a name="insert-update-delete"></a>
 ## Insert, Update, Delete
-
-To create a new object into Zuroa from a model, simply create a new model instance and call the `save` method.
-
-#### Saving A New Model
-
-	$account = new Account;
-
-	$account->Name = 'John';
-
-	$account->save();
 
 #### Using The Model Create Method
 
 	// Create a new user in the database...
-	$user = User::create(array('name' => 'John'));
-
-	// Retrieve the user by the attributes, or create it if it doesn't exist...
-	$user = User::firstOrCreate(array('name' => 'John'));
-
-	// Retrieve the user by the attributes, or instantiate a new instance...
-	$user = User::firstOrNew(array('name' => 'John'));
+	$account = Account::create(array('name' => 'my test account'));
 
 #### Updating A Retrieved Model
 
@@ -95,27 +73,22 @@ To delete a model, simply call the `delete` method on the instance:
 <a name="relationships"></a>
 ## Relationships
 
-Of course, your database tables are probably related to one another. For example, a blog post may have many comments, or an order could be related to the user who placed it. Eloquent makes managing and working with these relationships easy. Laravel supports many types of relationships:
-
-- [One To One](#one-to-one)
-- [One To Many](#one-to-many)
-
 <a name="one-to-one"></a>
 ### One To One
 
 #### Retrieve A One To One Relation
 
-For example, a `Subscription` model might have one `Account`.
+For example, a `Subscription` model have one `Account`.
 
 We may retrieve it using Zuora ORM's [dynamic properties](#dynamic-properties):
 
-	$account = Subscriptions::find(1)->account;
+	$account = Subscription::find(1)->account;
 
 The SQL performed by this statement will be as follows:
 
-	select * from users where id = 1
+	select * from Subscription where Id = 1
 
-	select * from phones where user_id = 1
+	select * from Account where Id = $subscription->Id
 
 <a name="one-to-many"></a>
 ### One To Many
@@ -126,7 +99,7 @@ We can access the account's subscriptionss through the [dynamic property](#dynam
 
 	$subscriptions = Account::find(1)->subscriptions;
 
-If you need to add further constraints to which comments are retrieved, you may call the `comments` method and continue chaining conditions:
+If you need to add further constraints to which subscriptions are retrieved, you may call the `subscriptions` method and continue chaining conditions:
 
 	$subscriptions = Account::find(1)->subscriptions()->where('Status', '=', 'Active')->get()->first();
 
@@ -135,28 +108,14 @@ If you need to add further constraints to which comments are retrieved, you may 
 
 #### Querying Relations When Selecting
 
-When accessing the records for a model, you may wish to limit your results based on the existence of a relationship. For example, you wish to pull all blog posts that have at least one comment. To do so, you may use the `has` method:
+When accessing the records for a model, you may wish to limit your results based on the existence of a relationship. For example, you wish to pull all accounts that have at least one subscription:
 
 	$accounts = Account::all()->filter(function($account) { return $account->subscription()->count() > 0; });
-
-You may also specify an operator and a count:
-
-	$accounts = Account::all()->filter(function($account) { 
-		return $account->subscription()->count() >= 3; 
-	});
-
-If you need even more power, you may use the `whereHas` and `orWhereHas` methods to put "where" conditions on your `has` queries:
-
-	$posts = Post::whereHas('comments', function($q)
-	{
-		$q->where('content', 'like', 'foo%');
-
-	})->get();
 
 <a name="dynamic-properties"></a>
 ### Dynamic Properties
 
-Eloquent allows you to access your relations via dynamic properties. Eloquent will automatically load the relationship for you, and is even smart enough to know whether to call the `get` (for one-to-many relationships) or `first` (for one-to-one relationships) method.  It will then be accessible via a dynamic property by the same name as the relation. For example, with the following model `$phone`:
+Zuora ORM allows you to access your relations via dynamic properties. Zuora ORM will automatically load the relationship for you, and is even smart enough to know whether to call the `get` (for one-to-many relationships) or `first` (for one-to-one relationships) method.  It will then be accessible via a dynamic property by the same name as the relation.
 
 	$subscription = Subscription::find(1);
 
@@ -168,70 +127,38 @@ It may be shortened to simply:
 
 	echo $subscription->account->Name;
 
-> **Note:** Relationships that return many results will return an instance of the `Illuminate\Database\Eloquent\Collection` class.
+> **Note:** Relationships that return many results will return an instance of the `Illuminate\Support\Collection` class.
 
 <a name="collections"></a>
 ## Collections
 
-All multi-result sets returned by Eloquent, either via the `get` method or a `relationship`, will return a collection object. This object implements the `IteratorAggregate` PHP interface so it can be iterated over like an array. However, this object also has a variety of other helpful methods for working with result sets.
-
-#### Checking If A Collection Contains A Key
-
-For example, we may determine if a result set contains a given primary key using the `contains` method:
-
-	$roles = User::find(1)->roles;
-
-	if ($roles->contains(2))
-	{
-		//
-	}
-
-Collections may also be converted to an array or JSON:
-
-	$roles = User::find(1)->roles->toArray();
-
-	$roles = User::find(1)->roles->toJson();
-
-If a collection is cast to a string, it will be returned as JSON:
-
-	$roles = (string) User::find(1)->roles;
+All multi-result sets returned by Zuora ORM, either via the `get` method or a `relationship`, will return a collection object. This object implements the `IteratorAggregate` PHP interface so it can be iterated over like an array. However, this object also has a variety of other helpful methods for working with result sets.
 
 #### Iterating Collections
 
-Eloquent collections also contain a few helpful methods for looping and filtering the items they contain:
-
-	$roles = $user->roles->each(function($role)
-	{
-		//
-	});
+Zuora ORM collections also contain a few helpful methods for looping and filtering the items they contain:
 
 #### Filtering Collections
 
 When filtering collections, the callback provided will be used as callback for [array_filter](http://php.net/manual/en/function.array-filter.php).
 
-	$users = $users->filter(function($user)
+	$accounts = $accounts->filter(function($account)
 	{
-		return $user->isAdmin();
+		return $account->hasSubcriptions();
 	});
-
-> **Note:** When filtering a collection and converting it to JSON, try calling the `values` function first to reset the array's keys.
 
 #### Applying A Callback To Each Collection Object
 
-	$roles = User::find(1)->roles;
+	$subscriptions = Account::find(1)->subscriptions;
 
-	$roles->each(function($role)
+	$subscriptions->each(function($subscription)
 	{
 		//
 	});
 
 #### Sorting A Collection By A Value
 
-	$roles = $roles->sortBy(function($role)
+	$subscriptions = $subscriptions->sortBy(function($subscription)
 	{
-		return $role->created_at;
+		return $subscription->CreatedDate;
 	});
-
-#### Sorting A Collection By A Value
-
-	$roles = $roles->sortBy('created_at');
