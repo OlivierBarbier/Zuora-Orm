@@ -2,8 +2,7 @@
 
 [![StyleCI](https://styleci.io/repos/47043649/shield?v1)](https://styleci.io/repos/47043649)
 [![Build Status](https://travis-ci.org/OlivierBarbier/Zorm.svg?branch=master)](https://travis-ci.org/OlivierBarbier/Zorm)
-[![License](https://poser.pugx.org/laravel/framework/license.svg)](https://packagist.org/packages/olivierbarbier/zuora-orm)
-
+[![Latest Stable Version](https://poser.pugx.org/olivierbarbier/zuora-orm/v/stable)](https://packagist.org/packages/olivierbarbier/zuora-orm) [![Total Downloads](https://poser.pugx.org/olivierbarbier/zuora-orm/downloads)](https://packagist.org/packages/olivierbarbier/zuora-orm) [![Latest Unstable Version](https://poser.pugx.org/olivierbarbier/zuora-orm/v/unstable)](https://packagist.org/packages/olivierbarbier/zuora-orm) [![License](https://poser.pugx.org/olivierbarbier/zuora-orm/license)](https://packagist.org/packages/olivierbarbier/zuora-orm)
 - [Introduction](#introduction)
 - [Basic Usage](#basic-usage)
 - [Insert, Update, Delete](#insert-update-delete)
