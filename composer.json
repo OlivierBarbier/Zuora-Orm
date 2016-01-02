@@ -9,14 +9,12 @@
     "license": "MIT",
     "autoload": {
         "psr-4" : {
-            "OlivierBarbier\\": "src/"
-        },
-        "classmap": [
-            "zuora"
-        ]
+            "OlivierBarbier\\Zorm\\": "src/Zorm/"
+        }
     },
     "require": {
-        "illuminate/support": "^4.2"
+        "illuminate/support": "^4.2",
+        "olivierbarbier/zuora-soap-api": "dev-master"
     },
     "require-dev": {
         "php-vcr/php-vcr": "^1.2",

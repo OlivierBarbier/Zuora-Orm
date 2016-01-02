@@ -422,8 +422,8 @@ abstract class Base
      */
     public function castToZuora($columns = ['*'])
     {
-        $class = 'Zuora_'.$this->getClassNameWithoutNamespace();
-
+        $class = 'OlivierBarbier\Zapi\\'.$this->getClassNameWithoutNamespace();
+echo $class, "\n";
         $zaccount = new $class();
 
         foreach ($this->fields as $field => $fieldValue) {

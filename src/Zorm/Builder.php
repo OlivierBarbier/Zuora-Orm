@@ -24,7 +24,7 @@ class Builder
     protected $wheres = [];
 
     /**
-     * @var \Zuora_API
+     * @var \OlivierBarbier\Zapi
      */
     protected $zuora;
 
@@ -174,12 +174,12 @@ class Builder
     }
 
     /**
-     * @return \Zuora_API
+     * @return \OlivierBarbier\Zapi
      */
     public function zuora()
     {
         if (is_null($this->zuora)) {
-            $instance = \Zuora_API::getInstance((object) [
+            $instance = \OlivierBarbier\Zapi\API::getInstance((object) [
                 'wsdl'      => $this->config['wsdl'],
             ]);
 
