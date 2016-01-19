@@ -19,13 +19,9 @@ The Zuora ORM provides a simple way for working with Zuora objects without writi
 <a name="basic-usage"></a>
 ## Basic Usage
 
-#### Retrieving All Models
-
-	$accounts = Account::all();
-
 #### Retrieving A Record By Primary Key
 
-	$account = account::find(1);
+	$account = Account::find(1);
 
 	var_dump($account->Name);
 
