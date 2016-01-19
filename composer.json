@@ -14,7 +14,7 @@
     },
     "require": {
         "illuminate/support": "^4.2",
-        "olivierbarbier/zuora-soap-api": "dev-master"
+        "olivierbarbier/zuora-soap-api": "v1.0.5"
     },
     "require-dev": {
         "php-vcr/php-vcr": "^1.2",
