@@ -46,7 +46,7 @@ Of course, you may also use the query builder aggregate functions.
 
 #### Using The Model Create Method
 
-	// Create a new user in the database...
+	// Create a new user in Zuora...
 	$account = Account::create(array('name' => 'my test account'));
 
 #### Updating A Retrieved Model
