@@ -116,7 +116,7 @@ Zuora ORM allows you to access your relations via dynamic properties. Zuora ORM 
 
 	$subscription = Subscription::find(1);
 
-Instead of echoing the user's email like this:
+Instead of echoing the subscription's name like this:
 
 	echo $subscription->account()->get()->first()->Name;
 
