@@ -2,8 +2,6 @@
 
 namespace OlivierBarbier\Zorm\Zobject;
 
-/**
- */
 class Sandbox
 {
     /**
