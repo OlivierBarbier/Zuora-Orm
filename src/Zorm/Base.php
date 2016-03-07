@@ -9,8 +9,6 @@ class UnsupportedCallException extends \Exception
 {
 }
 
-/**
- */
 abstract class Base
 {
     /**
@@ -42,8 +40,6 @@ abstract class Base
      */
     protected static $config;
 
-    /**
-     */
     public function __construct($config = null)
     {
         if (is_null($config)) {
@@ -55,8 +51,6 @@ abstract class Base
         $this->boot();
     }
 
-    /**
-     */
     protected function boot()
     {
         $xml = simplexml_load_file(static::$config['wsdl']);

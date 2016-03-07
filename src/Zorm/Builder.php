@@ -4,8 +4,6 @@ namespace OlivierBarbier\Zorm;
 
 use Illuminate\Support\Collection;
 
-/**
- */
 class Builder
 {
     /**
