@@ -7,7 +7,7 @@
             Host: apisandbox.zuora.com
             Content-Type: 'text/xml; charset=utf-8;'
             SOAPAction: ''
-        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://api.zuora.com/\"><SOAP-ENV:Body><ns1:login><ns1:username>username</ns1:username><ns1:password>passsword</ns1:password></ns1:login></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
+        body: "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<SOAP-ENV:Envelope xmlns:SOAP-ENV=\"http://schemas.xmlsoap.org/soap/envelope/\" xmlns:ns1=\"http://api.zuora.com/\"><SOAP-ENV:Body><ns1:login><ns1:username>olivier@1001menus.com</ns1:username><ns1:password>olivier2@</ns1:password></ns1:login></SOAP-ENV:Body></SOAP-ENV:Envelope>\n"
     response:
         status:
             http_version: '1.1'
